@@ -1,88 +1,115 @@
 const inquirer = require('inquirer');
+const Member = require('./lib/member');
+const Manager = require('./lib/manager')
+const Engineer = require('./lib/engineer');
+const Intern = require('./lib/intern');
 const fs = require('fs');
-
-let generateHTML = (data) =>
-  `uio`;
 
 
 do {
-  inquirer
-    .prompt([
-      {
-        'type': 'list',
-        'name': 'person',
-        'message': 'Add to Roster:',
-        'choices': ['Manager', 'Engineer', 'Intern']
-      },
-      {
-        'type': 'input',
-        'name': 'fullName',
-        'message': 'Enter Full Name:'
-      },
-      {
-        'type': 'input',
-        'name': 'idNum',
-        'message': 'Enter ID Number:'
-      },
-      {
-        'type': 'input',
-        'name': 'eMail',
-        'message': 'Enter Email:'
-      }
-    ])
-    .then((data) => {
-      const htmlPageContent = generateHTML(data);
+  inquirer.prompt([
+    {
+      'type': 'list',
+      'name': 'person',
+      'message': 'Add to Roster:',
+      'choices': ['Manager', 'Engineer', 'Intern']
+    },
+    {
+      'type': 'input',
+      'name': 'fullName',
+      'message': 'Enter Full Name:'
+    },
+    {
+      'type': 'input',
+      'name': 'idNum',
+      'message': 'Enter ID Number:'
+    },
+    {
+      'type': 'input',
+      'name': 'eMail',
+      'message': 'Enter Email:'
+    }
+  ]).then((data) => {
 
-      switch (data.person) {
-        case 'Manager': data.push(addManager());
-          var manObj = new Manager({ fullName, idNum, eMail, officeID })
-          break;
-        case 'Engingeer': data.push(addEngineer());
-          var engObj = new Engineer({ fullName, idNum, eMail, githubUsername })
-          break;
-        case 'Intern': data.push(addIntern());
-          var intObj = new Intern({ fullName, idNum, eMail, })
-          break;
-        default: alert("Error in Switch Statement: " + data.person);
-          break;
-      }
+    switch (data.person) {
+      case 'Manager': constructManager(data.push(addManager()));
+        break;
 
-      fsPromises.appendFile('/lib/classes.js', htmlPageContent, (err) =>
-        err ? console.log(err) : console.log('Successfully created index.html!')
-      );
-    });
-} while (!addMember())
+      case 'Engingeer': constructEngineer(data.push(addEngineer()));
+        break;
 
-let addManager = (detail) => inquirer.prompt([
-  {
-    'type': 'input',
-    'name': 'officeNum',
-    'message': 'Enter Office Number:'
-  },
-]).then((detail => { return detail; }))
+      case 'Intern': constructIntern(data.push(addIntern()));
+        break;
 
+      default: alert("Error in Switch Statement: " + data.person);
+        break;
+    }
+  });
 
-let addEngineer = (detail) => inquirer.prompt([
-  {
-    'type': 'input',
-    'name': 'githubUsername',
-    'message': 'Enter Github Username:'
-  },
-]).then((detail => { return detail; }))
+} while (addMembers())
 
+function addMembers() {
 
-let addIntern = (detail) => inquirer.prompt([
-  {
-    'type': 'input',
-    'name': 'school',
-    'message': 'Enter School:'
-  },
-]).then((detail => { return detail; }))
-
-let addMember = (addData) => inquirer.prompt([
-  {
+  inquire.prompt([{
     'type': 'confirm',
-    'name': 'continue',
-    'message': 'Add Another Team Member?'
-  }
-]).then((addData => { return addData.continue; }))
+    'name': 'continueBuilding',
+    'message': 'Continue Building Team?',
+  }]).then((data) => {
+    return data;
+  })
+}
+
+function addManager() {
+
+  inquirer.prompt([
+    {
+      'type': 'input',
+      'name': 'officeNum',
+      'message': 'Enter Office Number:'
+    }
+  ]).then((dataM) => {
+    return dataM;
+  })
+}
+
+function addEngineer() {
+
+  inquirer.prompt([
+    {
+      'type': 'input',
+      'name': 'githubUsername',
+      'message': 'Enter Github Username:'
+    }
+  ]).then((dataE) => {
+    return dataE;
+  })
+}
+
+function addIntern() {
+
+  const intern = inquirer.prompt([
+    {
+      'type': 'input',
+      'name': 'school',
+      'message': 'Enter School'
+    }
+  ]).then((dataI) => {
+    return dataI;
+  })
+}
+
+function constructManager(data) {
+  const manager 
+  = new Manager(data.fullName,data.idNum,data.eMail,data.officeNum)
+
+}
+function constructEngineer(data) {
+  const engineer 
+  = new Engineer (data.fullName,data.idNum,data.eMail,data.githubUsername)
+
+}
+function constructIntern(data) {
+  const intern 
+  = new Intern (data.fullName,data.idNum,data.eMail,data.school)
+
+}
