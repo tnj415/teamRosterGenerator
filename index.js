@@ -1,16 +1,14 @@
 const inquirer = require('inquirer');
-const Member = require('./lib/member');
+// const Member = require('./lib/member');
 const Manager = require('./lib/manager')
 const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
-const fs = require('fs');
+// const testdataCall = require('./dist/template.js');
 
-const teamMemM = [];
-const teamMemE = [];
-const teamMemI = [];
-const completeRoster = [];
+const membersM = [];
+const membersE = [];
+const membersI = [];
 
-// const rosterId = [];
 init()
 
 async function init() {
@@ -19,20 +17,7 @@ async function init() {
 
   await buildTeam();
 
-  for (var i = 0; i < teamMemM.length; i++) {
-    completeRoster.push(teamMemM[i])
-  }
-  for (var i = 0; i < teamMemE.length; i++) {
-    completeRoster.push(teamMemE[i])
-  }
-  for (var i = 0; i < teamMemI.length; i++) {
-    completeRoster.push(teamMemI[i])
-  }
-
-  exports.mMembers = teamMemM.length;
-  exports.eMembers = teamMemE.length;
-  exports.iMembers = teamMemI.length;
-  exports.roster = completeRoster;
+   module.exports = {membersM, membersE, membersI}
 
 }
 
@@ -74,7 +59,7 @@ async function buildTeam() {
 
       break;
 
-    case 'Add Intern': 
+    case 'Add Intern':
 
     const dataI = await addIntern();
       constructIntern(dataI);
@@ -83,10 +68,11 @@ async function buildTeam() {
       break;
 
     case 'Exit Team Builder': 
-    return;
+      console.log("goodbye")
+      return;
 
-    default: alert("Error in Switch Statement: " + data.person);
-      break;
+    // default: alert("Error in Switch Statement: " + data.person);
+    //   break;
   }
 }
 
@@ -143,19 +129,19 @@ async function addIntern() {
 function constructManager(data) {
   const manager = new Manager(data.fullName, data.idNum, data.eMail, data.officeNum)
   console.log("Manager:", manager)
-  teamMemM.push(manager)
+  membersM.push(manager)
 
 }
 function constructEngineer(data) {
   const engineer = new Engineer(data.fullName, data.idNum, data.eMail, data.githubUsername)
   console.log("Engineer:", engineer)
-  teamMemE.push(engineer)
+  membersE.push(engineer)
 
 }
 function constructIntern(data) {
   const intern = new Intern(data.fullName, data.idNum, data.eMail, data.school)
   console.log("Intern:", intern)
-  teamMemI.push(intern)
+  membersI.push(intern)
 
 }
 
