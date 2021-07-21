@@ -3,7 +3,8 @@ const inquirer = require('inquirer');
 const Manager = require('./lib/manager')
 const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
-// const template = require('./src/template');
+const template = require('./src/template');
+const endTemplate = require('./src/endtemplate');
 
 
 // const managerArr = [];
@@ -17,10 +18,10 @@ const Intern = require('./lib/intern');
 
 async function init() {
 
-  const employeeData1 = await addEmployee();
+  const employeeData = await addEmployee();
   const managerData = await addManager();
 
-  await constructManager(employeeData1, managerData);
+  await constructManager(employeeData, managerData);
 
   await promptAction();
 
@@ -29,7 +30,7 @@ async function init() {
   // generateInternCards();
 
   //module.exports = {membersM, membersE, membersI}
-
+endTemplate()
 }
 
 async function promptAction() {
@@ -132,7 +133,7 @@ async function addIntern() {
 }
 
 async function constructManager(employeeData, managerData) {
-  const template = await require('./src/template');
+
   const employee = new Manager(
     employeeData.name,
     employeeData.id,
@@ -140,7 +141,7 @@ async function constructManager(employeeData, managerData) {
     managerData.officeNumber)
 
   console.log("Manager:", employee)
-  template.displayTeam(employee)
+  template(employee)
   
 
 }
@@ -153,8 +154,7 @@ async function constructEngineer(employeeData, engineerData) {
     engineerData.github)
 
   console.log("Engineer:", engineer)
-  await template.displayTeam(engineer)
-  const template = require('./src/template');
+  template(engineer)
 
 }
 async function constructIntern(employeeData, internData) {
@@ -166,8 +166,7 @@ async function constructIntern(employeeData, internData) {
     internData.school)
 
   console.log("Intern:", employee)
-  await template.displayTeam(employee)
-  const template = require('./src/template');
+  template(employee)
 
 }
 
