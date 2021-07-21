@@ -1,104 +1,109 @@
 const inquirer = require('inquirer');
-// const Member = require('./lib/member');
+// const Employee = require('./lib/employee.js')
 const Manager = require('./lib/manager')
 const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
-// const testdataCall = require('./dist/template.js');
+// const template = require('./src/template');
 
-const membersM = [];
-const membersE = [];
-const membersI = [];
 
-init()
+// const managerArr = [];
+// const engineerArr = [];
+// const internArr = [];
+
+
+
+
+
 
 async function init() {
-  const dataM = await addManager();
-  constructManager(dataM);
 
-  await buildTeam();
+  const employeeData1 = await addEmployee();
+  const managerData = await addManager();
 
-   module.exports = {membersM, membersE, membersI}
+  await constructManager(employeeData1, managerData);
+
+  await promptAction();
+
+  // generateManagerCards();
+  // generateEngineerCards();
+  // generateInternCards();
+
+  //module.exports = {membersM, membersE, membersI}
 
 }
 
-async function buildTeam() {
+async function promptAction() {
+
+  // let employeeData = {};
 
 
-
-  const data = await inquirer.prompt([
+  const response = await inquirer.prompt([
     {
       type: 'list',
-      name: 'person',
+      name: 'action',
       message: 'What Would You Like To Do?:',
       choices: ['Add Engineer', 'Add Intern', 'Exit Team Builder']
-    },
-    {
-      type: 'input',
-      name: 'fullName',
-      message: 'Enter Full Name:'
-    },
-    {
-      type: 'input',
-      name: 'idNum',
-      message: 'Enter ID Number:'
-    },
-    {
-      type: 'input',
-      name: 'eMail',
-      message: 'Enter Email:'
     }
   ])
 
-  switch (data.person) {
 
-    case 'Add Engineer': 
+  switch (response.action) {
 
-    const dataE = await addEngineer();
-      constructEngineer(dataE);
-      await buildTeam();
+    case 'Add Engineer':
+      const employeeData2 = await addEmployee();
+      const engineerData = await addEngineer();
+      constructEngineer(employeeData2, engineerData);
+      await promptAction();
 
       break;
 
     case 'Add Intern':
-
-    const dataI = await addIntern();
-      constructIntern(dataI);
-      await buildTeam();
+      employeeData = await addEmployee();
+      const internData = await addIntern();
+      await constructIntern(employeeData, internData);
+      await promptAction();
 
       break;
 
-    case 'Exit Team Builder': 
-      console.log("goodbye")
+    case 'Exit Team Builder':
       return;
 
-    // default: alert("Error in Switch Statement: " + data.person);
-    //   break;
+    default: alert("Error in Switch Statement: Unable to " + response.action);
+      break;
   }
+}
+
+async function addEmployee() {
+  const employeeData = await inquirer.prompt([
+    {
+      type: 'input',
+      name: 'name',
+      message: 'Enter Full Name:',
+    },
+    {
+      type: 'input',
+      name: 'id',
+      message: 'Enter ID Number:',
+    },
+    {
+      type: 'input',
+      name: 'email',
+      message: 'Enter Email:',
+    }])
+
+    console.log("Employee Data: ", employeeData);
+  return employeeData
 }
 
 async function addManager() {
   const data = await inquirer.prompt([
     {
       type: 'input',
-      name: 'fullName',
-      message: 'Enter Full Name:',
-    },
-    {
-      type: 'input',
-      name: 'idNum',
-      message: 'Enter ID Number:',
-    },
-    {
-      type: 'input',
-      name: 'eMail',
-      message: 'Enter Email:',
-    },
-    {
-      type: 'input',
-      name: 'officeNum',
+      name: 'officeNumber',
       message: 'Enter Office Number:',
     }])
 
+    
   return data;
 }
 
@@ -107,7 +112,7 @@ async function addEngineer() {
   const data = await inquirer.prompt([
     {
       type: 'input',
-      name: 'githubUsername',
+      name: 'github',
       message: 'Enter Github Username:'
     }])
 
@@ -126,22 +131,44 @@ async function addIntern() {
   return data;
 }
 
-function constructManager(data) {
-  const manager = new Manager(data.fullName, data.idNum, data.eMail, data.officeNum)
-  console.log("Manager:", manager)
-  membersM.push(manager)
+async function constructManager(employeeData, managerData) {
+  const template = await require('./src/template');
+  const employee = new Manager(
+    employeeData.name,
+    employeeData.id,
+    employeeData.email,
+    managerData.officeNumber)
+
+  console.log("Manager:", employee)
+  template.displayTeam(employee)
+  
 
 }
-function constructEngineer(data) {
-  const engineer = new Engineer(data.fullName, data.idNum, data.eMail, data.githubUsername)
+async function constructEngineer(employeeData, engineerData) {
+ 
+  const engineer = new Engineer(
+    employeeData.name,
+    employeeData.id,
+    employeeData.email,
+    engineerData.github)
+
   console.log("Engineer:", engineer)
-  membersE.push(engineer)
+  await template.displayTeam(engineer)
+  const template = require('./src/template');
 
 }
-function constructIntern(data) {
-  const intern = new Intern(data.fullName, data.idNum, data.eMail, data.school)
-  console.log("Intern:", intern)
-  membersI.push(intern)
+async function constructIntern(employeeData, internData) {
+ 
+  const employee = new Intern(
+    employeeData.name,
+    employeeData.id,
+    employeeData.email,
+    internData.school)
+
+  console.log("Intern:", employee)
+  await template.displayTeam(employee)
+  const template = require('./src/template');
 
 }
 
+init()
