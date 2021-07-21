@@ -15,7 +15,7 @@
 
 ## General Info
 * This program allows users to use the terminal to  build a team of their employees and it generates an HTML file that displays everyone on the team
-* ![a snapshot of the website generated from this program](/assets/img/./dist/images/websiteCapture.PNG)
+![a snapshot of the website generated from this program](/dist/images/websiteCapture.PNG)
 
 ## Technologies
 * This website was created with HTML,CSS,JavaScript,Node JS code on Microsoft Visual Studio Code.

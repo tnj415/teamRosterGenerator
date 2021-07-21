@@ -79,7 +79,7 @@ async function addEmployee() {
     {
       type: 'input',
       name: 'name',
-      message: 'Enter Full Name:',
+      message: 'Enter Name:',
     },
     {
       type: 'input',

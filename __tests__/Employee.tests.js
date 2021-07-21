@@ -1,40 +1,41 @@
-const Member = require("./lib/classes")
+
+const Employee = require("../lib/employee")
 
 describe("Classes", () => {
     describe("Initialization", () => {
-        it("should return an object with member information - 'name', 'idNum', and 'eMail'", () => {
+        it("should return an object with member information - 'name', 'id', and 'email'", () => {
             //Act
-            const obj = new Member();
+            const obj = new Employee();
 
             //Assert
             expect("name" in obj).toEqual(true);
-            expect("idNum" in obj).toEqual(true);
-            expect("eMail" in obj).toEqual(true);
+            expect("id" in obj).toEqual(true);
+            expect("email" in obj).toEqual(true);
         });
 
         it("should set 'name', idNum', and 'eMail', when created", () => {
             //Arrange
             const name = "testName";
-            const idNum = "testIdNum";
-            const eMail = "testEmail";
+            const id = "testId";
+            const email = "testEmail";
 
             //Act
-            const obj = new Member(name, idNum, eMail);
+            const obj = new Employee(name, id, email);
 
             //Assert
             expect(obj.name).toEqual(name);
-            expect(obj.idNum).toEqual(idNum);
-            expect(obj.eMail).toEqual(eMail);
+            expect(obj.id).toEqual(id);
+            expect(obj.email).toEqual(email);
         });
 
-        it("should default 'name' to 'Member Name, 'idNum' to 'ID Number', and 'eMail' to 'eMail'", () => {
+        it("should default 'name' to 'Name, 'id' to 'ID', and 'email' to 'Email'", () => {
             //Act
-            const obj = new Member();
+            const obj = new Employee();
 
             //Assert
-            expect(obj.name).toEqual('Member Name')
-            expect(obj.idNum).toEqual('ID Number')
-            expect(obj.eMail).toEqual('eMail')
+            expect(obj.name).toEqual('Name')
+            expect(obj.id).toEqual('ID')
+            expect(obj.email).toEqual('Email')
         });
     });
 
